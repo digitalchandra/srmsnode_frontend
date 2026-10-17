@@ -9,6 +9,9 @@ import Login from './pages/auth/Login'
 import Categories from './pages/Categories'
 import Brands from './pages/Brands'
 import Inventory from './pages/Inventory'
+import ExpiryTracking from './pages/ExpiryTracking'
+import StockAdjustment from './pages/StockAdjustment'
+import StockMovements from './pages/StockMovements'
 
 function NotFound() {
   return (
@@ -43,11 +46,18 @@ export default function App() {
 
             <Route path="/inventory" element={<Inventory />} />
 
+            <Route path="/expiry-tracking" element={<ExpiryTracking />} />
+
+            <Route path="/stock-adjustment" element={<StockAdjustment />} />
+
+            <Route path="/stock-movements" element={<StockMovements />} />
           </Route>
 
         </Route>
 
         <Route path="*" element={<NotFound />} />
+
+        
 
       </Routes>
     </BrowserRouter>
