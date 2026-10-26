@@ -12,6 +12,10 @@ import Inventory from './pages/Inventory'
 import ExpiryTracking from './pages/ExpiryTracking'
 import StockAdjustment from './pages/StockAdjustment'
 import StockMovements from './pages/StockMovements'
+import POS from './pages/POS'
+import Sales from './pages/Sales'
+
+
 
 function NotFound() {
   return (
@@ -51,6 +55,12 @@ export default function App() {
             <Route path="/stock-adjustment" element={<StockAdjustment />} />
 
             <Route path="/stock-movements" element={<StockMovements />} />
+
+            <Route path="/pos" element={<POS />} />
+
+            <Route path="/sales" element={<Sales />} />
+       
+            
           </Route>
 
         </Route>

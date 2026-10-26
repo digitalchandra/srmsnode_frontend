@@ -17,16 +17,18 @@ import {
   Clock,
   Database,
   LoaderIcon,
-  LogOut
+  LogOut,
+  Barcode,
 } from 'lucide-react'
 
 const navigation = [
   { name: 'Dashboard', path: '/', icon: LayoutDashboard },
+  { name: 'POS', path: '/POS', icon: ShoppingCart },
+  {name: 'Sales', path: '/sales', icon: Barcode},
   { name: 'Products', path: '/products', icon: Package },
   { name: 'Categories', path: '/categories', icon: Tags },
   { name: 'Brands', path: '/brands', icon: ShieldCheck },
   { name: 'Inventory', path: '/inventory', icon: Warehouse },
-  { name: 'Sales & POS', path: '/sales', icon: ShoppingCart },
   { name: 'Expiry Tracking', path: '/expiry-tracking', icon: Clock },
   { name: 'Stock Movements', path: '/stock-movements', icon: LoaderIcon },
   { name: 'Stock Adjustment', path: '/stock-adjustment', icon: Database },
