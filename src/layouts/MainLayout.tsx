@@ -19,13 +19,17 @@ import {
   LoaderIcon,
   LogOut,
   Barcode,
+  Handshake,
+  RotateCw,
 } from 'lucide-react'
 
 const navigation = [
   { name: 'Dashboard', path: '/', icon: LayoutDashboard },
   { name: 'POS', path: '/POS', icon: ShoppingCart },
   {name: 'Sales', path: '/sales', icon: Barcode},
+  {name: 'Payments', path: '/payments', icon: Handshake},
   { name: 'Products', path: '/products', icon: Package },
+  { name: 'Sales Returns', path: '/sales-returns', icon: RotateCw },
   { name: 'Categories', path: '/categories', icon: Tags },
   { name: 'Brands', path: '/brands', icon: ShieldCheck },
   { name: 'Inventory', path: '/inventory', icon: Warehouse },
@@ -35,9 +39,6 @@ const navigation = [
   { name: 'Customers', path: '/customers', icon: Users },
   { name: 'Reports', path: '/reports', icon: BarChart3 },
   { name: 'Settings', path: '/settings', icon: Settings },
- 
-
-
 
 ]
 

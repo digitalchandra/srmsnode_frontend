@@ -14,6 +14,8 @@ import StockAdjustment from './pages/StockAdjustment'
 import StockMovements from './pages/StockMovements'
 import POS from './pages/POS'
 import Sales from './pages/Sales'
+import Payments from './pages/Payments'
+import SalesReturns from "./pages/SalesReturns";
 
 
 
@@ -59,7 +61,10 @@ export default function App() {
             <Route path="/pos" element={<POS />} />
 
             <Route path="/sales" element={<Sales />} />
+
+            <Route path="/payments" element={<Payments />} />
        
+            <Route path="/sales-returns" element={<SalesReturns />} />
             
           </Route>
 
