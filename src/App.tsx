@@ -15,8 +15,8 @@ import StockMovements from './pages/StockMovements'
 import POS from './pages/POS'
 import Sales from './pages/Sales'
 import Payments from './pages/Payments'
-import SalesReturns from "./pages/SalesReturns";
-
+import SalesReturns from "./pages/SalesReturns"
+import Refunds from './pages/Refunds'
 
 
 function NotFound() {
@@ -65,6 +65,8 @@ export default function App() {
             <Route path="/payments" element={<Payments />} />
        
             <Route path="/sales-returns" element={<SalesReturns />} />
+
+            <Route path="/refunds" element={<Refunds />} />
             
           </Route>
 

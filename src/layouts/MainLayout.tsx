@@ -21,6 +21,7 @@ import {
   Barcode,
   Handshake,
   RotateCw,
+  Wallet,
 } from 'lucide-react'
 
 const navigation = [
@@ -30,6 +31,7 @@ const navigation = [
   {name: 'Payments', path: '/payments', icon: Handshake},
   { name: 'Products', path: '/products', icon: Package },
   { name: 'Sales Returns', path: '/sales-returns', icon: RotateCw },
+  { name: 'Refunds', path: '/refunds', icon: Wallet },
   { name: 'Categories', path: '/categories', icon: Tags },
   { name: 'Brands', path: '/brands', icon: ShieldCheck },
   { name: 'Inventory', path: '/inventory', icon: Warehouse },
