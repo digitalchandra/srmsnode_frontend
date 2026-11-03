@@ -18,6 +18,8 @@ import Payments from './pages/Payments'
 import SalesReturns from "./pages/SalesReturns"
 import Refunds from './pages/Refunds'
 import Reports from './pages/Reports'
+import Customers from './pages/Customers'
+import SettingsPage from './pages/Settings'
 
 
 
@@ -71,6 +73,10 @@ export default function App() {
             <Route path="/refunds" element={<Refunds />} />
 
             <Route path="/reports" element={<Reports />} />
+
+            <Route path="/customers" element={<Customers />} />
+
+            <Route path="/settings" element={<SettingsPage />} />
             
           </Route>
 

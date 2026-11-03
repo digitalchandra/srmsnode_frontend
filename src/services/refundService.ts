@@ -19,71 +19,67 @@ export type Refund = {
   referenceNumber?: string
   note?: string
   refundDate: string
-  refundedBy?: {
-    _id: string
-    name?: string
-    email?: string
-  } | string
   status: 'COMPLETED' | 'VOIDED'
 }
 
 export type SalesReturnForRefund = {
   _id: string
   returnNumber: string
-  saleId: {
-    _id: string
-    saleDate?: string
-    totalAmount?: number
-    paidAmount?: number
-    paymentStatus?: string
-  } | string
-  customerId?: {
-    _id: string
-    name?: string
-    phone?: string
-  } | string | null
   totalRefundAmount: number
-  refundStatus: 'PENDING' | 'REFUNDED' | 'STORE_CREDIT' | 'REJECTED'
   status: 'DRAFT' | 'COMPLETED' | 'CANCELLED'
+  refundStatus: string
 }
 
-export type RefundHistoryResponse = {
-  salesReturn: SalesReturnForRefund
+export type RefundHistory = {
   refunds: Refund[]
   totalRefunded: number
   remainingRefundable: number
+  status: string
 }
 
 export const refundService = {
-  async getCompletedReturns() {
-    const response = await api.get('/sales-returns', {
-      params: { page: 1, limit: 100 },
-    })
+ 
+    async getCompletedReturns(): Promise<SalesReturnForRefund[]> {
+      const response = await api.get('/sales-returns')
 
-    const returns = response.data?.data?.returns ?? []
+      const returns = response.data?.data?.returns
 
-    return returns.filter(
-      (item: SalesReturnForRefund) => item.status === 'COMPLETED',
-    ) as SalesReturnForRefund[]
-  },
+      if (!Array.isArray(returns)) {
+        return []
+      }
 
-  async getRefundHistory(returnId: string) {
-    const response = await api.get(`/refunds/${returnId}`)
+      return returns.filter(
+        (item: SalesReturnForRefund) => item.status === 'COMPLETED'
+      )
+    },
 
-    return response.data?.data as RefundHistoryResponse
-  },
 
   async createRefund(
     returnId: string,
-    payload: {
+    refundData: {
       amount: number
       refundMethod: RefundMethod
       referenceNumber?: string
       note?: string
     },
   ) {
-    const response = await api.post(`/refunds/${returnId}`, payload)
+    const response = await api.post(
+      `/refunds/${returnId}`,
+      refundData,
+    )
 
     return response.data
+  },
+
+  async getRefundHistory(returnId: string): Promise<RefundHistory> {
+    const response = await api.get(`/refunds/${returnId}`)
+    const result = response.data
+
+    return {
+      refunds: result?.data ?? [],
+      totalRefunded: Number(result?.totalRefunded) || 0,
+      remainingRefundable: Number(result?.remainingRefundable) || 0,
+      status: result?.status ?? 'PENDING',
+    }
   },
 }

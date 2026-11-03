@@ -9,6 +9,9 @@ import {
   Clock,
   RefreshCw,
   AlertCircle,
+  AlertTriangle,
+  Trophy,
+
 } from 'lucide-react'
 import {
   Bar,
@@ -20,10 +23,14 @@ import {
   YAxis,
 } from 'recharts'
 import api from '../services/api'
+
 import {
   reportService,
   type SalesSummary,
   type DailySale,
+  type BestSeller,
+  type LowStockAlert,
+
 } from '../services/reportService'
 
 const money = (value: number) =>
@@ -38,6 +45,8 @@ export default function Dashboard() {
   const [dailySales, setDailySales] = useState<DailySale[]>([])
   const [totalProducts, setTotalProducts] = useState<number | null>(null)
   const [totalCustomers, setTotalCustomers] = useState<number | null>(null)
+  const [bestSellers, setBestSellers] = useState<BestSeller[]>([])
+  const [lowStockAlerts, setLowStockAlerts] = useState<LowStockAlert[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
@@ -64,6 +73,8 @@ export default function Dashboard() {
         reportService.getDailySales(startDate, today),
         api.get('/products', { params: { page: 1, limit: 1 } }),
         api.get('/customers', { params: { page: 1, limit: 1 } }),
+        reportService.getBestSellers(),
+        reportService.getLowStockAlerts(),
       ])
 
       if (results[0].status === 'fulfilled') {
@@ -95,6 +106,16 @@ export default function Dashboard() {
           data?.items?.length
         setTotalCustomers(typeof count === 'number' ? count : null)
       }
+
+      if (results[4].status === 'fulfilled') {
+          setBestSellers(results[4].value)
+        
+      }
+
+      if (results[5].status === 'fulfilled') {
+          setLowStockAlerts(results[5].value)
+      }
+
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Failed to load dashboard.')
     } finally {
@@ -201,6 +222,143 @@ export default function Dashboard() {
             Sales for the last seven calendar days
           </p>
         </div>
+
+    
+
+        {/* Best Sellers and Low Stock Alerts */}
+        <section className="grid gap-6 xl:grid-cols-2">
+
+          {/* Best Sellers */}
+          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+            <div className="mb-5 flex items-center justify-between">
+              <div>
+                <h2 className="flex items-center gap-2 font-semibold text-slate-900">
+                  <Trophy size={20} className="text-amber-500" />
+                  Top Best Sellers
+                </h2>
+                <p className="mt-1 text-sm text-slate-500">
+                  Top 10 products by quantity sold
+                </p>
+              </div>
+              <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-medium text-blue-700">
+                All time
+              </span>
+            </div>
+
+            {loading ? (
+              <p className="py-8 text-center text-sm text-slate-500">
+                Loading best sellers...
+              </p>
+            ) : bestSellers.length === 0 ? (
+              <p className="py-8 text-center text-sm text-slate-500">
+                No completed sales found.
+              </p>
+            ) : (
+              <div className="space-y-4">
+                {bestSellers.map((product, index) => (
+                  <div
+                    key={product.productId}
+                    className="flex items-center gap-3 border-b border-slate-100 pb-3 last:border-0"
+                  >
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-slate-100 font-bold text-slate-600">
+                      {index + 1}
+                    </div>
+
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-sm font-semibold text-slate-900">
+                        {product.productName}
+                      </p>
+                      <p className="text-xs text-slate-500">
+                        {product.sku} · {product.totalOrders} orders
+                      </p>
+                      <p className="mt-1 text-xs text-slate-500">
+                        Stock: {product.currentStock} {product.unit}
+                      </p>
+                    </div>
+
+                    <div className="shrink-0 text-right">
+                      <p className="font-semibold text-slate-900">
+                        {product.totalQuantitySold} {product.unit}
+                      </p>
+                      <p className="text-xs text-green-700">
+                        {money(product.totalSalesAmount)}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+  {/* Low Stock Alerts */}
+  <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+    <div className="mb-5 flex items-center justify-between">
+      <div>
+        <h2 className="flex items-center gap-2 font-semibold text-slate-900">
+          <AlertTriangle size={20} className="text-orange-500" />
+          Inventory Alerts
+        </h2>
+        <p className="mt-1 text-sm text-slate-500">
+          Products requiring stock attention
+        </p>
+      </div>
+
+      <span className="rounded-full bg-red-50 px-3 py-1 text-xs font-medium text-red-700">
+        {lowStockAlerts.length} alerts
+      </span>
+    </div>
+
+    {loading ? (
+      <p className="py-8 text-center text-sm text-slate-500">
+        Loading inventory alerts...
+      </p>
+    ) : lowStockAlerts.length === 0 ? (
+      <p className="py-8 text-center text-sm text-green-700">
+        All products have sufficient stock.
+      </p>
+    ) : (
+      <div className="space-y-4">
+        {lowStockAlerts.slice(0, 10).map((product) => (
+          <div
+            key={product._id}
+            className="flex items-center justify-between gap-3 border-b border-slate-100 pb-3 last:border-0"
+          >
+            <div className="min-w-0">
+              <p className="truncate text-sm font-semibold text-slate-900">
+                {product.name}
+              </p>
+              <p className="text-xs text-slate-500">
+                SKU: {product.sku}
+              </p>
+              <p className="mt-1 text-xs text-slate-500">
+                Threshold: {product.lowStockThreshold} {product.unit}
+              </p>
+            </div>
+
+            <div className="shrink-0 text-right">
+              <span
+                className={`rounded-full px-2 py-1 text-xs font-medium ${
+                  product.stockStatus === 'OUT_OF_STOCK'
+                    ? 'bg-red-100 text-red-700'
+                    : 'bg-orange-100 text-orange-700'
+                }`}
+              >
+                {product.stockStatus === 'OUT_OF_STOCK'
+                  ? 'Out of Stock'
+                  : 'Low Stock'}
+              </span>
+
+              <p className="mt-2 text-sm font-bold text-slate-900">
+                {product.currentStock} {product.unit}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+    )}
+  </div>
+</section>
+
 
         {dailySales.length > 0 ? (
           <div className="h-80 w-full">

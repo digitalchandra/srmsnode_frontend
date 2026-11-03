@@ -341,7 +341,7 @@ export default function Refunds() {
                   </tr>
                 </thead>
                 <tbody>
-                  {history.map((refund) => (
+                  {Array.isArray(history) && history.map((refund) => (
                     <tr key={refund._id} className="border-t">
                       <td className="whitespace-nowrap p-3">
                         {new Date(refund.refundDate).toLocaleDateString()}
