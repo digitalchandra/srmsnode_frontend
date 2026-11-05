@@ -24,7 +24,12 @@ export const inventoryService = {
   getBatchById: (id: string) => api.get(`/inventory-batches/${id}`),
   createBatch: (data: InventoryBatchPayload) =>
     api.post('/inventory-batches', data),
-  getExpiryBatches: () => api.get('/inventory-batches/expiry'),
+
+
+  getExpiryBatches: (days?: number) =>
+  api.get('/inventory-batches/expiry', {
+    params: days ? { days } : {},
+  }),
 
   createStockAdjustment: (data: StockAdjustmentPayload) =>
     api.post('/stock-adjustments', data),

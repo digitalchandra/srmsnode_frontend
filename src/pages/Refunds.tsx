@@ -21,13 +21,7 @@ const money = (value: number) =>
     maximumFractionDigits: 2,
   }).format(Number(value) || 0)
 
-const getId = (value: unknown): string => {
-  if (typeof value === 'string') return value
-  if (value && typeof value === 'object' && '_id' in value) {
-    return String(value._id)
-  }
-  return ''
-}
+
 
 export default function Refunds() {
   const [returns, setReturns] = useState<SalesReturnForRefund[]>([])

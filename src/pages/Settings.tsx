@@ -776,19 +776,4 @@ function SettingsCard({
   )
 }
 
-function SettingRow({
-  label,
-  value,
-}: {
-  label: string
-  value: string | number
-}) {
-  return (
-    <div className="flex items-start justify-between gap-4 border-b border-slate-100 pb-2">
-      <span className="text-sm text-slate-500">{label}</span>
-      <span className="break-all text-right text-sm font-medium text-slate-800">
-        {value || 'Not configured'}
-      </span>
-    </div>
-  )
-}
+
