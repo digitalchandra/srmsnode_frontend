@@ -165,6 +165,15 @@ export default function Login() {
           </button>
         </form>
 
+        <div className="flex justify-end">
+          <Link
+            to="/forgot-password"
+            className="text-sm font-medium text-blue-600 hover:text-blue-700 hover:underline"
+          >
+            Forgot password?
+          </Link>
+        </div>
+
         <p className="mt-6 text-center text-xs text-slate-500">
           Secure access to your business workspace.
         </p>
