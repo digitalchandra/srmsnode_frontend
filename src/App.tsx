@@ -21,6 +21,7 @@ import Reports from './pages/Reports'
 import Customers from './pages/Customers'
 import SettingsPage from './pages/Settings'
 import ForgotPassword from './pages/auth/ForgotPassword'
+import Register from './pages/auth/Register'
 
 
 
@@ -43,6 +44,7 @@ export default function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/register" element={<Register />} />
 
         <Route element={<ProtectedRoute />}>
 

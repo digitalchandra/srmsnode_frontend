@@ -177,12 +177,17 @@ export default function Login() {
         <p className="mt-6 text-center text-xs text-slate-500">
           Secure access to your business workspace.
         </p>
+          <p className="mt-4 text-center text-sm text-slate-600">
+            Don't have an account?{' '}
+            <Link
+              to="/register"
+              className="font-semibold text-blue-600 hover:underline"
+            >
+              Register Your Business
+            </Link>
+          </p>
 
-        <p className="mt-4 text-center text-sm">
-          <Link to="/" className="font-medium text-blue-600 hover:underline">
-            Back to dashboard
-          </Link>
-        </p>
+     
       </section>
     </main>
   )
