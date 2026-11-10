@@ -22,6 +22,11 @@ import Customers from './pages/Customers'
 import SettingsPage from './pages/Settings'
 import ForgotPassword from './pages/auth/ForgotPassword'
 import Register from './pages/auth/Register'
+import SuperAdminLogin from './pages/super-admin/SuperAdminLogin'
+import SuperAdminProtectedRoute from './components/SuperAdminProtectedRoute'
+import SuperAdminDashboard from './pages/super-admin/SuperAdminDashboard'
+import VendorManagement from './pages/super-admin/VendorManagement'
+import VendorDetails from './pages/super-admin/VendorDetails'
 
 
 
@@ -43,8 +48,27 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<Login />} />
+
         <Route path="/forgot-password" element={<ForgotPassword />} />
+
         <Route path="/register" element={<Register />} />
+
+        <Route path="/super-admin/login" element={<SuperAdminLogin />}/>
+
+        <Route element={<SuperAdminProtectedRoute />}>
+          <Route
+            path="/super-admin/dashboard"
+            element={<SuperAdminDashboard />}
+          />
+          <Route
+              path="/super-admin/vendors"
+              element={<VendorManagement />}
+          />
+          <Route
+            path="/super-admin/vendors/:id"
+            element={<VendorDetails />}
+          />
+        </Route>
 
         <Route element={<ProtectedRoute />}>
 
