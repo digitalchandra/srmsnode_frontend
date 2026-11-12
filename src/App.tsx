@@ -27,6 +27,7 @@ import SuperAdminProtectedRoute from './components/SuperAdminProtectedRoute'
 import SuperAdminDashboard from './pages/super-admin/SuperAdminDashboard'
 import VendorManagement from './pages/super-admin/VendorManagement'
 import VendorDetails from './pages/super-admin/VendorDetails'
+import AccountPage from './pages/Account'
 
 
 
@@ -105,6 +106,8 @@ export default function App() {
             <Route path="/customers" element={<Customers />} />
 
             <Route path="/settings" element={<SettingsPage />} />
+
+            <Route path="/account" element={<AccountPage />} />
             
           </Route>
 

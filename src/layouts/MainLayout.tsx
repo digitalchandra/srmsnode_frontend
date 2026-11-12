@@ -1,6 +1,8 @@
 
 import { NavLink, Outlet } from 'react-router-dom'
 import {useNavigate} from 'react-router-dom'
+
+
 import {
   LayoutDashboard,
   Package,
@@ -16,12 +18,13 @@ import {
   ShieldCheck,
   Clock,
   Database,
-  LoaderIcon,
   LogOut,
   Barcode,
   Handshake,
   RotateCw,
   Wallet,
+  CircleUserRound,
+  ArrowLeftRight,
 } from 'lucide-react'
 
 const navigation = [
@@ -47,7 +50,7 @@ const navigation = [
 
   { name: 'Expiry Tracking', path: '/expiry-tracking', icon: Clock },
 
-  { name: 'Stock Movements', path: '/stock-movements', icon: LoaderIcon },
+  { name: 'Stock Movements', path: '/stock-movements', icon: ArrowLeftRight },
 
   { name: 'Stock Adjustment', path: '/stock-adjustment', icon: Database },
 
@@ -56,6 +59,8 @@ const navigation = [
   { name: 'Reports', path: '/reports', icon: BarChart3 },
 
   { name: 'Settings', path: '/settings', icon: Settings },
+
+  { name: 'Account', path: '/account', icon: CircleUserRound },
 
 ]
 
@@ -75,7 +80,8 @@ function handleLogout() {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 md:flex">
-      <aside className="w-full shrink-0 bg-slate-950 p-5 text-white md:sticky md:top-0 md:h-screen md:w-64">
+      
+      <aside className="flex w-full shrink-0 flex-col bg-slate-950 p-5 text-white md:sticky md:top-0 md:h-screen md:w-64 md:overflow-y-auto">
         <div className="mb-8 flex items-center gap-3">
           <div className="rounded-xl bg-blue-600 p-2">
             <Store size={25} />
@@ -92,7 +98,7 @@ function handleLogout() {
           Workspace
         </p>
 
-        <nav className="grid grid-cols-2 gap-2 md:block md:space-y-1">
+        <nav className="flex flex-col gap-1">
           {navigation.map(({ name, path, icon: Icon }) => (
             <NavLink
               key={path}
@@ -110,25 +116,16 @@ function handleLogout() {
               {name}
             </NavLink>
           ))}
+          
         </nav>
-        
-        <button
-          type="button"
-          onClick={handleLogout}
-          className="mt-6 flex w-full items-center gap-3 rounded-lg px-3 py-3 text-sm text-slate-300 transition hover:bg-red-500/10 hover:text-red-400"
-        >
-          <LogOut size={18} />
-          Logout
-        </button>
-
-        <div className="mt-8 rounded-xl border border-slate-800 p-4">
-          <p className="text-sm font-semibold">SRMS Business</p>
-          <p className="mt-1 text-xs text-slate-400">
-            Manage your store efficiently.
-          </p>
-        </div>
-
-
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="mt-6 flex w-full shrink-0 items-center gap-3 rounded-lg px-3 py-3 text-sm text-slate-300 transition hover:bg-red-500/10 hover:text-red-400"
+          >
+            <LogOut size={18} />
+            Logout
+          </button>
       </aside>
 
       <div className="min-w-0 flex-1">
