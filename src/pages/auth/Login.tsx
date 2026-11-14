@@ -165,12 +165,21 @@ export default function Login() {
           </button>
         </form>
 
-        <div className="flex justify-end">
+        
+
+        <div className="flex flex-col items-end gap-2">
           <Link
             to="/forgot-password"
             className="text-sm font-medium text-blue-600 hover:text-blue-700 hover:underline"
           >
             Forgot password?
+          </Link>
+
+          <Link
+            to="/reactivation-request"
+            className="text-sm font-medium text-orange-600 hover:text-orange-700 hover:underline"
+          >
+            Request Account Reactivation
           </Link>
         </div>
 

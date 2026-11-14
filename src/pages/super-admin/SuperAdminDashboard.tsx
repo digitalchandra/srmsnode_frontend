@@ -35,12 +35,15 @@ export default function SuperAdminDashboard() {
   const [stats, setStats] = useState<DashboardStats>(initialStats)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [pendingReactivationCount, setPendingReactivationCount] =
+    useState<number | null>(null)
 
   async function loadDashboard() {
     setLoading(true)
     setError('')
 
     try {
+      // 1. Load vendor dashboard statistics
       const response = await superAdminApi.get(
         '/super-admin/vendors/dashboard',
       )
@@ -52,6 +55,30 @@ export default function SuperAdminDashboard() {
       }
 
       setStats(response.data.data)
+
+      // 2. Load pending reactivation request count
+      try {
+        const requestsResponse = await superAdminApi.get(
+          '/super-admin/vendors/reactivation-requests',
+          {
+            params: {
+              status: 'PENDING',
+              page: 1,
+              limit: 1,
+            },
+          },
+        )
+
+        setPendingReactivationCount(
+          requestsResponse.data.data.pagination.total,
+        )
+      } catch (requestError) {
+        console.error(
+          'Unable to load pending reactivation count:',
+          requestError,
+        )
+        setPendingReactivationCount(null)
+      }
     } catch (err: unknown) {
       if (
         typeof err === 'object' &&
@@ -134,7 +161,7 @@ export default function SuperAdminDashboard() {
 
   return (
     <div className="min-h-screen bg-slate-100">
-
+      {/* Header */}
       <header className="flex items-center justify-between bg-slate-950 px-6 py-5 text-white shadow">
         <div className="flex items-center gap-3">
           <ShieldCheck size={30} />
@@ -155,8 +182,8 @@ export default function SuperAdminDashboard() {
         </button>
       </header>
 
+      {/* Dashboard */}
       <main className="mx-auto max-w-7xl px-6 py-8">
-
         <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
           <div>
             <h2 className="text-2xl font-bold text-slate-900">
@@ -216,6 +243,7 @@ export default function SuperAdminDashboard() {
           </div>
         )}
 
+        {/* Vendor Management */}
         <div className="mt-8 rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
           <h3 className="text-lg font-semibold text-slate-900">
             Vendor Management
@@ -227,12 +255,53 @@ export default function SuperAdminDashboard() {
 
           <button
             onClick={() => navigate('/super-admin/vendors')}
-            className="mt-5 rounded-lg bg-slate-900 px-5 py-3 text-sm font-semibold text-white hover:bg-slate-800"
+            className="mt-5 rounded-lg bg-green-900 px-5 py-3 text-sm font-semibold text-white hover:bg-slate-800"
           >
             Manage Vendors
           </button>
         </div>
 
+        {/* Reactivation Requests */}
+        <div className="mt-6 rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+          <div className="mb-5 flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium text-slate-500">
+                Pending Requests
+              </p>
+
+              <p className="mt-1 text-3xl font-bold text-amber-600">
+                {pendingReactivationCount === null
+                  ? '—'
+                  : pendingReactivationCount}
+              </p>
+            </div>
+
+            <div className="rounded-xl bg-amber-100 p-4 text-amber-700">
+              <Clock size={28} />
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <Clock className="text-amber-600" size={25} />
+
+            <div>
+              <h3 className="text-lg font-semibold text-slate-900">
+                Reactivation Requests
+              </h3>
+
+              <p className="mt-1 text-sm text-slate-500">
+                Review and approve or reject vendor account reactivation requests.
+              </p>
+            </div>
+          </div>
+
+          <button
+            onClick={() => navigate('/super-admin/reactivation-requests')}
+            className="mt-5 rounded-lg bg-amber-600 px-5 py-3 text-sm font-semibold text-white hover:bg-amber-700"
+          >
+            Manage Reactivation Requests
+          </button>
+        </div>
       </main>
     </div>
   )

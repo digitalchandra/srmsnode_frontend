@@ -28,6 +28,8 @@ import SuperAdminDashboard from './pages/super-admin/SuperAdminDashboard'
 import VendorManagement from './pages/super-admin/VendorManagement'
 import VendorDetails from './pages/super-admin/VendorDetails'
 import AccountPage from './pages/Account'
+import ReactivationRequests from './pages/super-admin/ReactivationRequests'
+import ReactivationRequest from './pages/auth/ReactivationRequest'
 
 
 
@@ -48,14 +50,18 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
+        // Public Routes
         <Route path="/login" element={<Login />} />
 
         <Route path="/forgot-password" element={<ForgotPassword />} />
 
         <Route path="/register" element={<Register />} />
 
+        <Route path="/reactivation-request" element={<ReactivationRequest />}/>
+
         <Route path="/super-admin/login" element={<SuperAdminLogin />}/>
 
+// Super Admin Routes
         <Route element={<SuperAdminProtectedRoute />}>
           <Route
             path="/super-admin/dashboard"
@@ -69,8 +75,12 @@ export default function App() {
             path="/super-admin/vendors/:id"
             element={<VendorDetails />}
           />
+          <Route
+              path="/super-admin/reactivation-requests"
+              element={<ReactivationRequests />}
+            />
         </Route>
-
+// vender routes
         <Route element={<ProtectedRoute />}>
 
           <Route element={<MainLayout />}>
